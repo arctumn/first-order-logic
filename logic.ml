@@ -15,8 +15,8 @@ let rec simplify exp =
   | True -> True
   | False -> False
   | Or (True,_) -> True
-  | Or (Negation a, b) when (Negation (Negation a) = b) -> True
-  | And (Negation a, b) when (Negation (Negation a) = b) -> False
+  | Or  (a, b) when (Negation a = b) -> True
+  | And (a, b) when (Negation a = b) -> False
   | And (False,_) -> False
   | Or (a,b) | And (a,b) | Implication (a,b) | Equivalence (a,b) when (a = b) -> simplify a
   | Or (a,b) -> Or(simplify a, simplify b)
