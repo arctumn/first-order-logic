@@ -8,18 +8,6 @@ type expression =
   | Implication of expression * expression
   | Equivalence of expression * expression
 
-let exp_to_text exp =
-  let rec evaluate exp value =
-    match exp with
-    | Value a           ->  a
-    | True -> "True"
-    | False -> "False"
-    | Negation a        -> "!" ^ evaluate a value
-    | Or (a,b)          -> "("^ evaluate a value ^ " v " ^ evaluate b value ^ ")"
-    | And (a,b)         -> "("^ evaluate a value ^ " ^ " ^ evaluate b value ^ ")"
-    | Implication (a,b) -> "("^ evaluate a value ^ " => " ^ evaluate b value ^ ")"
-    | Equivalence (a,b) -> "("^ evaluate a value ^ " <=> " ^ evaluate b value ^ ")"
-  in evaluate exp ""  
 
 let rec simplify exp =
   match exp with
@@ -43,6 +31,23 @@ let rec simplify exp =
      | Or (a,b) -> And (simplify (Negation(a)),simplify (Negation(b)))
      | And (a,b) -> Or (simplify (Negation(a)),simplify (Negation(b)))
      | _ -> Negation (simplify a)
+
+
+
+let exp_to_text exp =
+ let rec evaluate exp value =
+   match exp with
+   | Value a           ->  a
+   | True -> "True"
+   | False -> "False"
+   | Negation a        -> "!" ^ evaluate a value
+   | Or (a,b)          -> "("^ evaluate a value ^ " v " ^ evaluate b value ^ ")"
+   | And (a,b)         -> "("^ evaluate a value ^ " ^ " ^ evaluate b value ^ ")"
+   | Implication (a,b) -> "("^ evaluate a value ^ " => " ^ evaluate b value ^ ")"
+   | Equivalence (a,b) -> "("^ evaluate a value ^ " <=> " ^ evaluate b value ^ ")"
+ in evaluate exp ""  
+    
+
 let exp1 = 
   Negation(
     Negation(
